@@ -27,10 +27,10 @@ RUN wget --no-verbose https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION 
 EXPOSE 3838
 
 RUN cd /srv/shiny-server/
-RUN sudo git clone https://github.com/kevstyers/NeonPortalAggregator.git
+RUN git clone https://github.com/kevstyers/NeonPortalAggregator.git
 
 # Run package install
-RUN sudo R source("/srv/shiny-server/NeonPortalAggregator1/src/installAllPackages.R")
+RUN R source("/srv/shiny-server/NeonPortalAggregator1/src/installAllPackages.R")
 
 COPY shiny-server.sh /usr/bin/shiny-server.sh
 
