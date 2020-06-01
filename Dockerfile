@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
     xtail \
     wget \
     git
+    
+
 
 
 # Download and install shiny server
@@ -24,15 +26,24 @@ RUN wget --no-verbose https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION 
     cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/ && \
     chown shiny:shiny /var/lib/shiny-server
 
+COPY Rprofile.site /usr/lib/R/etc/
 
 EXPOSE 3838
 
-RUN cd /srv/shiny-server/
-RUN git clone https://github.com/kevstyers/NeonPortalAggregator.git
+
+RUN git clone https://github.com/kevstyers/NeonPortalAggregator.git /srv/shiny-server/NeonPortalAggregator
 
 # Run package install
-RUN R source("/srv/shiny-server/NeonPortalAggregator1/src/installAllPackages.R")
 
-COPY shiny-server.sh /usr/bin/shiny-server.sh
+RUN apt-get install libssl-dev -y
+RUN apt-get install libssl-dev -y
 
-CMD ["/usr/bin/shiny-server.sh"]
+RUN R -e "source('/srv/shiny-server/NeonPortalAggregator/src/installAllPackages.R')"
+
+RUN apt-get install -y xdg-utils
+
+CMD ["R", "-e", "shiny::runApp('/srv/shiny-server/NeonPortalAggregator/', host = '0.0.0.0', port = 3838)"]
+
+# COPY shiny-server.sh /usr/bin/shiny-server.sh
+
+# CMD ["/usr/bin/shiny-server.sh"]
