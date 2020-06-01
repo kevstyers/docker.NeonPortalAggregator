@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     libcairo2-dev \
     libxt-dev \
     xtail \
-    wget
+    wget \
+    git
 
 
 # Download and install shiny server
